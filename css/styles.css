@@ -1,0 +1,49 @@
+body {
+  color: #333;
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #FAFCFD;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#map-canvas {
+  height: 100%;
+  width: 50%;
+  float: right;
+}
+
+.column {
+  width: 40%;
+  padding: 2%;
+  float: left;
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: -8px;
+}
+
+p {
+  padding: 10px 0;
+}
+p + p {
+  border-top: 1px solid black;
+}
+
+.search-wrapper {
+  width: 500px;
+  float: right;
+  text-align: right;
+}
+
+#the-button {
+  width: 50px;
+}
+
+tiny {
+  font-size: 10px;
+}
