@@ -38,9 +38,9 @@ $(document).ready(function(){
         //gets the info from endpoint created above
         $.get(quakes_endpoint, function(response){
             var numOfQuakes = response.metadata.count;
-            $('#info-header').append('<h1> There has been ' + numOfQuakes + ' earthquakes based on your search: </h1><br>'
-                                        + '<tiny>Max display 75</tiny>');
+            $('#info-header').append('<h1> There has been ' + numOfQuakes + ' earthquakes based on your search: </h1><br>');
             response.features.forEach(function(quake){
+                console.log(quake);
                 var titles = quake.properties.title;
                 var hours = Math.round( ( Date.now() - quake.properties.time ) / (1000*60*60) );
                 var lat = quake.geometry.coordinates[1];
