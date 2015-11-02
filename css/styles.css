@@ -35,7 +35,7 @@ p + p {
 }
 
 .search-wrapper {
-  width: 500px;
+  width: 100%;
   float: right;
   text-align: right;
 }
@@ -46,4 +46,13 @@ p + p {
 
 tiny {
   font-size: 10px;
+}
+
+#quakes {
+    height: 1245px;
+    overflow-y: scroll;
+}
+
+#search-updated-since {
+  width: 126px;
 }
