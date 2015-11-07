@@ -31,6 +31,7 @@
     <div id="title-wrapper" class="text-center">
         <h1 id="title">SF Quake Search</h1>
     </div>
+    <p class="text-center instructions">Fill out the fields below and see where earthquakes occured within the last month around San Francisco!</p>
     <div class="search-wrapper">
         <div id="search">
             <tiny>(Data only goes as far as a month)</tiny> <span class="form-info"> Earthquake since:</span><input type="date" id="search-updated-since" placeholder="yyyy-mm-dd"><br>
@@ -42,7 +43,8 @@
     <div id="info-header">
     </div>
     <!-- template gets appended into here -->
-    <div id="quakes">
+    <div id="quakes" class="content">
+        Click on quake info for to have the map zoom into that area.
     </div>
 
         <script type="text/template" id="template">
