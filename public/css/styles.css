@@ -33,13 +33,20 @@ p + p {
 }
 
 .search-wrapper {
-  width: 100%;
-  float: right;
-  text-align: right;
+    width: 100%;
+    float: right;
+    text-align: right;
+    margin-bottom: 25px;
+    margin-top: 15px;
+    background-color: #EFEFEF;
 }
 
 .form-info {
   font-size: 18px;
+}
+
+.instructions {
+  font-size: 1.25vw;
 }
 
 #the-button {
@@ -52,7 +59,7 @@ tiny {
 }
 
 #quakes {
-    height: 1245px;
+    height: 56vh;
     overflow-y: scroll;
 }
 
