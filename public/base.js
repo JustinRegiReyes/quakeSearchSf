@@ -28,7 +28,8 @@ $(document).ready(function(){
         //updates the maps zoom to be further out so earthquake markers can be seen better
         map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 37.78, lng: -122.44},
-            zoom: 3
+            zoom: 3,
+            mapTypeId: google.maps.MapTypeId.TERRAIN
         });
 
         //puts together the url after the user hits the search button that calls getQuakes
@@ -38,9 +39,8 @@ $(document).ready(function(){
         //gets the info from endpoint created above
         $.get(quakes_endpoint, function(response){
             var numOfQuakes = response.metadata.count;
-            $('#info-header').append('<h1> There has been ' + numOfQuakes + ' earthquakes based on your search: </h1><br>');
+            $('#info-header').append('<h1 class="text-center"> There has been ' + numOfQuakes + ' earthquakes based on your search: </h1><br>');
             response.features.forEach(function(quake){
-                console.log(quake);
                 var titles = quake.properties.title;
                 var hours = Math.round( ( Date.now() - quake.properties.time ) / (1000*60*60) );
                 var lat = quake.geometry.coordinates[1];
@@ -63,8 +63,13 @@ $(document).ready(function(){
                 });
                 console.log(lat);
             });
+
+            $('#quakes p').css('cursor','pointer');
+
+
             $('#quakes p').on('click', function() {
-                console.log($(this).attr('id'));
+                mapRecenter($(this).attr('id'));
+                // console.log($(this).attr('id'));
             });
         });
     };
@@ -74,7 +79,8 @@ $(document).ready(function(){
     //TODO: make default map be http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 37.78, lng: -122.44},
-        zoom: 7
+        zoom: 7,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
     });
 
 //calls get quakes after they hit button
@@ -83,9 +89,17 @@ $(document).ready(function(){
         $('#info-header').empty();
         getQuakes();
     });
-
-
-
-
-
 });
+
+
+function mapRecenter(id) {
+    var coordinates = id.split(" ");
+    var lat = parseFloat(coordinates[0]);
+    var lng = parseFloat(coordinates[1]);
+    var latLng  = new google.maps.LatLng(lat, lng);
+
+    map.setZoom(11);
+    map.panTo(latLng);
+    
+}
+
