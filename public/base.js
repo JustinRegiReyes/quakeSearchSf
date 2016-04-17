@@ -10,7 +10,7 @@ var withinDeg;
 var quakes_endpoint;
 var protocol = window.location.protocol;
 var host = window.location.host;
-if(protocol === "http:") {
+if(protocol === "https:") {
     window.location.href = "http://" + host;
 }
 $(document).ready(function(){
