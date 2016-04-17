@@ -8,6 +8,11 @@ var minMagnitude;
 var withinDeg;
 //where we want to GET the info from based on the search parameters
 var quakes_endpoint;
+var protocol = window.location.protocol;
+var host = window.location.host;
+if(protocol === "http:") {
+    window.location.href = "http://" + host;
+}
 $(document).ready(function(){
     //the 3 following updates the updatedSince, minMagnitude, and withinDeg variables every time the user types in the bar
     $('#search-updated-since').on('change', function() {
@@ -19,8 +24,6 @@ $(document).ready(function(){
     $('#search-deg').on('change',function() {
         withinDeg = $('#search-deg').val();
     });
-    // to tell the ajax function which protocol endpoint to hit for cross origin matters
-    var protocol = window.location.protocol;
 
     //getting the info from the element we want to use for the template
     var info_html = $("#template").html();
@@ -35,45 +38,46 @@ $(document).ready(function(){
         });
 
         //puts together the url after the user hits the search button that calls getQuakes
-        quakes_endpoint = protocol + '//earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&updatedafter=' + updatedSince;
+        quakes_endpoint = 'http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&updatedafter=' + updatedSince;
         quakes_endpoint += '&latitude=37.78&longitude=-122.44&maxradius=' + withinDeg + '&minmagnitude=' + minMagnitude;
 
         //gets the info from endpoint created above
-        $.get(quakes_endpoint, function(response){
-            var numOfQuakes = response.metadata.count;
-            $('#info-header').append('<h1 class="text-center"> There has been ' + numOfQuakes + ' earthquakes based on your search: </h1><br>');
-            response.features.forEach(function(quake){
-                var titles = quake.properties.title;
-                var hours = Math.round( ( Date.now() - quake.properties.time ) / (1000*60*60) );
-                var lat = quake.geometry.coordinates[1];
-                var lng = quake.geometry.coordinates[0];
-                var info_row_html = infoTemplate({
-                    title: titles,
-                    hour: hours,
-                    numOfQuakes: numOfQuakes,
-                    lat: lat,
-                    lng: lng
+        $.get(quakes_endpoint, "jsonp", function(response){
+                var numOfQuakes = response.metadata.count;
+                $('#info-header').append('<h1 class="text-center"> There has been ' + numOfQuakes + ' earthquakes based on your search: </h1><br>');
+                response.features.forEach(function(quake){
+                    var titles = quake.properties.title;
+                    var hours = Math.round( ( Date.now() - quake.properties.time ) / (1000*60*60) );
+                    var lat = quake.geometry.coordinates[1];
+                    var lng = quake.geometry.coordinates[0];
+                    var info_row_html = infoTemplate({
+                        title: titles,
+                        hour: hours,
+                        numOfQuakes: numOfQuakes,
+                        lat: lat,
+                        lng: lng
+                    });
+                    //printing the template into the element we want
+                    $("#quakes").append( info_row_html );
+
+
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(lat, lng),
+                        map: map,
+                        title: titles
+                    });
+                    console.log(lat);
                 });
-                //printing the template into the element we want
-                $("#quakes").append( info_row_html );
+
+                $('#quakes p').css('cursor','pointer');
 
 
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, lng),
-                    map: map,
-                    title: titles
+                $('#quakes p').on('click', function() {
+                    mapRecenter($(this).attr('id'));
+                    // console.log($(this).attr('id'));
                 });
-                console.log(lat);
-            });
-
-            $('#quakes p').css('cursor','pointer');
-
-
-            $('#quakes p').on('click', function() {
-                mapRecenter($(this).attr('id'));
-                // console.log($(this).attr('id'));
-            });
-        });
+            }
+        );
     };
 
 
