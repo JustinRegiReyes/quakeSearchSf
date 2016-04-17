@@ -19,6 +19,8 @@ $(document).ready(function(){
     $('#search-deg').on('change',function() {
         withinDeg = $('#search-deg').val();
     });
+    // to tell the ajax function which protocol endpoint to hit for cross origin matters
+    var protocol = window.location.protocol;
 
     //getting the info from the element we want to use for the template
     var info_html = $("#template").html();
@@ -33,7 +35,7 @@ $(document).ready(function(){
         });
 
         //puts together the url after the user hits the search button that calls getQuakes
-        quakes_endpoint = 'http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&updatedafter=' + updatedSince;
+        quakes_endpoint = protocol + '//earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&updatedafter=' + updatedSince;
         quakes_endpoint += '&latitude=37.78&longitude=-122.44&maxradius=' + withinDeg + '&minmagnitude=' + minMagnitude;
 
         //gets the info from endpoint created above
